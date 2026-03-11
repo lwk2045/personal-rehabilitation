@@ -9,7 +9,6 @@ const STATIC_ASSETS = [
   '/개인회생_상담_챗봇.html',
   '/manifest.json'
 ];
-
 // 설치
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -17,7 +16,6 @@ self.addEventListener('install', event => {
   );
   self.skipWaiting();
 });
-
 // 활성화
 self.addEventListener('activate', event => {
   event.waitUntil(
@@ -27,12 +25,13 @@ self.addEventListener('activate', event => {
   );
   self.clients.claim();
 });
-
 // 네트워크 우선, 실패시 캐시
 self.addEventListener('fetch', event => {
   // API 요청은 캐시 안 함
   if (event.request.url.includes('/.netlify/functions/')) return;
   if (event.request.url.includes('api.anthropic.com')) return;
+  // POST 요청은 캐시 안 함
+  if (event.request.method === 'POST') return;
 
   event.respondWith(
     fetch(event.request)
