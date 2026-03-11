@@ -500,7 +500,7 @@
     <div class="header-icon">⚖️</div>
     <div>
       <div class="header-title">개인회생 AI 상담 <span style="font-size:13px;font-weight:400;color:var(--gold);margin-left:6px;">| 이왕국 법무사 사무소</span></div>
-      <div class="header-subtitle">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail <span class="__cf_email__" data-cfemail="e884899f848d90a88f85898184c68b8785">[email&#160;protected]</span></div>
+      <div class="header-subtitle">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail <span class="__cf_email__" data-cfemail="1c707d6b7079645c7b717d7570327f7371">[email&#160;protected]</span></div>
     </div>
   </a>
   <div class="header-badge">AI 법률 안내</div>
@@ -750,4 +750,12 @@ async function sendMessage() {
   } catch (err) {
     typing.style.display = 'none';
     const errMsg = err.message || '알 수 없는 오류';
-    appendMessage('ai', `⚠️ 연결에 문제가 발생했습니다.<br><small style="color:#999">${er
+    appendMessage('ai', `⚠️ 연결에 문제가 발생했습니다.<br><small style="color:#999">${ererrMsg}</small>`);
+  } finally {
+    isLoading = false;
+    document.getElementById('sendBtn').disabled = false;
+  }
+}
+</script>
+</body>
+</html>
