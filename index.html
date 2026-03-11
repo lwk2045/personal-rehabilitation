@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>개인회생 상담 시스템 | 법무사 사무소</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a2e;
+  --paper: #f5f0e8;
+  --accent: #8b4513;
+  --accent-light: #c4793a;
+  --gold: #c9a84c;
+  --muted: #7a7060;
+  --border: #d4c9b0;
+  --shadow: rgba(26,26,46,0.13);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--ink);
+  border-bottom: 3px solid var(--gold);
+  padding: 0 40px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 24px var(--shadow);
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-icon {
+  width: 38px; height: 38px;
+  background: var(--gold); border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px;
+}
+.brand-text { font-family: 'Noto Serif KR', serif; color: var(--paper); font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+.brand-sub { font-size: 11px; color: var(--gold); margin-top: 1px; letter-spacing: 0.3px; }
+.header-tel {
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.35);
+  color: var(--gold);
+  padding: 7px 16px;
+  border-radius: 22px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.header-tel:hover { background: var(--gold); color: var(--ink); }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--ink) 0%, #16213e 40%, #0f3460 100%);
+  padding: 80px 40px 90px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 30%, rgba(139,69,19,0.12) 0%, transparent 50%);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0; height: 50px;
+  background: var(--paper);
+  clip-path: ellipse(60% 100% at 50% 100%);
+}
+/* floating dots decoration */
+.hero-dots {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(201,168,76,0.18) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.5;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.4);
+  color: var(--gold);
+  font-size: 11.5px; letter-spacing: 1.5px;
+  padding: 6px 16px; border-radius: 22px;
+  margin-bottom: 24px;
+  position: relative;
+  animation: fadeDown 0.6s ease both;
+}
+.hero-badge::before { content: '⚖️'; }
+
+.hero h1 {
+  font-family: 'Noto Serif KR', serif;
+  color: #fff;
+  font-size: clamp(26px, 5vw, 42px);
+  font-weight: 900;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  position: relative;
+  animation: fadeDown 0.6s 0.1s ease both;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--gold), #e8c830);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-desc {
+  color: rgba(255,255,255,0.65);
+  font-size: 15px;
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto 36px;
+  position: relative;
+  animation: fadeDown 0.6s 0.2s ease both;
+}
+
+.hero-cta-row {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  position: relative;
+  animation: fadeDown 0.6s 0.3s ease both;
+}
+.hero-btn {
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 14px; font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all 0.22s;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.hero-btn.primary { background: var(--gold); color: var(--ink); }
+.hero-btn.primary:hover { background: #e0bd5c; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,168,76,0.4); }
+.hero-btn.outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.85); }
+.hero-btn.outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── STATS ── */
+.stats-row {
+  max-width: 860px;
+  margin: -28px auto 0;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  position: relative; z-index: 2;
+}
+@media(max-width:640px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+.stat-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  text-align: center;
+  box-shadow: 0 4px 18px var(--shadow);
+  animation: fadeUp 0.5s ease both;
+}
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stat-num {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 26px; font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+}
+.stat-num sup { font-size: 13px; }
+.stat-unit { font-size: 13px; color: var(--gold); font-weight: 700; }
+.stat-label { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+/* ── SECTION ── */
+.section { max-width: 860px; margin: 0 auto; padding: 56px 20px 0; }
+.section-header { text-align: center; margin-bottom: 32px; }
+.section-eyebrow { font-size: 11px; color: var(--gold); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+.section-title { font-family: 'Noto Serif KR', serif; font-size: 24px; font-weight: 700; color: var(--ink); }
+
+/* ── MENU CARDS ── */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.menu-grid.bottom { grid-template-columns: repeat(2, 1fr); }
+@media(max-width:680px) {
+  .menu-grid, .menu-grid.bottom { grid-template-columns: 1fr; }
+}
+
+.menu-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px 22px;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex; flex-direction: column;
+  transition: all 0.22s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+.menu-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--card-color, var(--gold));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px var(--shadow);
+  border-color: var(--card-color, var(--gold));
+}
+.menu-card:hover::before { transform: scaleX(1); }
+
+.menu-card.c1 { --card-color: #c9a84c; }
+.menu-card.c2 { --card-color: #8b4513; }
+.menu-card.c3 { --card-color: #2c3e6e; }
+.menu-card.c4 { --card-color: #2e7d32; }
+.menu-card.c5 { --card-color: #6a1b9a; }
+
+.card-icon-wrap {
+  width: 52px; height: 52px;
+  border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  margin-bottom: 14px;
+  background: var(--card-bg, #fff8e7);
+}
+.menu-card.c1 .card-icon-wrap { background: #fff8e7; }
+.menu-card.c2 .card-icon-wrap { background: #fdf0e8; }
+.menu-card.c3 .card-icon-wrap { background: #e8eeff; }
+.menu-card.c4 .card-icon-wrap { background: #e8f5e9; }
+.menu-card.c5 .card-icon-wrap { background: #f3e8ff; }
+
+.card-step {
+  font-size: 10px;
+  color: var(--card-color, var(--gold));
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.card-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px; font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.card-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  flex: 1;
+}
+.card-arrow {
+  margin-top: 16px;
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12.5px;
+  color: var(--card-color, var(--gold));
+  font-weight: 700;
+}
+
+/* ── PROCESS BAR ── */
+.process-strip {
+  background: var(--ink);
+  margin: 56px 0 0;
+  padding: 40px 20px;
+}
+.process-inner { max-width: 860px; margin: 0 auto; }
+.process-title {
+  font-family: 'Noto Serif KR', serif;
+  color: white; font-size: 18px; font-weight: 700;
+  margin-bottom: 28px; text-align: center;
+}
+.process-steps {
+  display: flex; align-items: center; gap: 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.process-step {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 90px; flex: 1;
+}
+.p-dot {
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(201,168,76,0.4);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+}
+.process-step:hover .p-dot {
+  background: rgba(201,168,76,0.2);
+  border-color: var(--gold);
+  transform: scale(1.1);
+}
+.p-label { font-size: 11px; color: rgba(255,255,255,0.6); text-align: center; line-height: 1.4; }
+.p-arrow { color: rgba(201,168,76,0.35); font-size: 18px; margin: 0 2px; margin-bottom: 20px; flex-shrink: 0; }
+
+/* ── NOTICE ── */
+.notice-section { max-width: 860px; margin: 0 auto; padding: 40px 20px 0; }
+.notice-card {
+  background: linear-gradient(135deg, #fff8e7, #fef3d4);
+  border: 1px solid #e8d9a0;
+  border-left: 4px solid var(--gold);
+  border-radius: 12px;
+  padding: 18px 22px;
+  font-size: 13px;
+  color: #7a5c00;
+  line-height: 1.75;
+}
+.notice-card strong { color: #5a3c00; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 32px 40px;
+  margin-top: 60px;
+  text-align: center;
+}
+.footer-brand { font-family: 'Noto Serif KR', serif; color: var(--gold); font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.footer-info { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.8; }
+.footer-links { display: flex; justify-content: center; gap: 20px; margin-top: 16px; flex-wrap: wrap; }
+.footer-link { color: rgba(255,255,255,0.45); font-size: 12.5px; text-decoration: none; transition: color 0.2s; }
+.footer-link:hover { color: var(--gold); }
+
+/* ── URGENT FLOAT ── */
+.urgent-float {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50px;
+  padding: 13px 20px;
+  font-size: 14px; font-weight: 700;
+  box-shadow: 0 6px 24px rgba(139,69,19,0.5);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+  animation: pulse 2.5s infinite;
+  z-index: 999;
+  transition: all 0.2s;
+}
+.urgent-float:hover { transform: scale(1.05); background: #a0521c; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 6px 24px rgba(139,69,19,0.5); }
+  50%       { box-shadow: 0 6px 32px rgba(139,69,19,0.8); }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-icon">⚖️</div>
+    <div>
+      <div class="brand-text">개인회생 상담 시스템</div>
+      <div class="brand-sub">법무사 사무소 · Personal Rehabilitation Consulting</div>
+    </div>
+  </div>
+  <a class="header-tel" href="04_상담예약.html">📅 상담 예약</a>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-badge">개인회생 전문 법무사 상담 시스템</div>
+  <h1>빚의 무게에서<br><em>벗어날 방법</em>이 있습니다</h1>
+  <p class="hero-desc">
+    개인회생 제도를 통해 채무를 조정하고<br>
+    경제적으로 새로운 출발을 할 수 있습니다.<br>
+    지금 바로 자격진단부터 시작해 보세요.
+  </p>
+  <div class="hero-cta-row">
+    <a class="hero-btn primary" href="01_자격진단.html">✅ 무료 자격진단 시작</a>
+    <a class="hero-btn outline" href="개인회생_상담_챗봇.html">💬 AI 상담 바로가기</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-num">3~5<sup>년</sup></div>
+    <div class="stat-label">변제 후 잔여채무 면책</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">5<sup>억</sup></div>
+    <div class="stat-label">무담보채무 신청 한도</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">즉시</div>
+    <div class="stat-unit">중단</div>
+    <div class="stat-label">압류·추심 포괄금지명령</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">무료</div>
+    <div class="stat-unit">상담</div>
+    <div class="stat-label">초기 자격진단 무료</div>
+  </div>
+</div>
+
+<!-- MENU -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">SERVICES</div>
+    <div class="section-title">무엇을 도와드릴까요?</div>
+  </div>
+
+  <div class="menu-grid">
+    <a class="menu-card c1" href="01_자격진단.html">
+      <div class="card-icon-wrap">✅</div>
+      <div class="card-step">STEP 01</div>
+      <div class="card-title">개인회생<br>자격 진단</div>
+      <div class="card-desc">7가지 질문으로 2분 만에 개인회생 신청 가능 여부를 확인하세요.</div>
+      <div class="card-arrow">진단 시작 →</div>
+    </a>
+    <a class="menu-card c2" href="02_비용안내.html">
+      <div class="card-icon-wrap">💰</div>
+      <div class="card-step">STEP 02</div>
+      <div class="card-title">비용·수수료<br>안내</div>
+      <div class="card-desc">법원 납부 비용부터 사무소 수수료까지 투명하게 공개합니다.</div>
+      <div class="card-arrow">비용 확인 →</div>
+    </a>
+    <a class="menu-card c3" href="03_절차타임라인.html">
+      <div class="card-icon-wrap">📋</div>
+      <div class="card-step">STEP 03</div>
+      <div class="card-title">절차 타임라인<br>시각화</div>
+      <div class="card-desc">신청부터 면책까지 8단계 전체 절차를 한눈에 확인하세요.</div>
+      <div class="card-arrow">절차 보기 →</div>
+    </a>
+  </div>
+
+  <div class="menu-grid bottom">
+    <a class="menu-card c4" href="04_상담예약.html">
+      <div class="card-icon-wrap">📅</div>
+      <div class="card-step">STEP 04</div>
+      <div class="card-title">상담 예약</div>
+      <div class="card-desc">방문·전화·화상 상담을 예약하세요. 1 영업일 이내 연락드립니다. 모든 상담은 비밀이 보장됩니다.</div>
+      <div class="card-arrow">예약하기 →</div>
+    </a>
+    <a class="menu-card c5" href="개인회생_상담_챗봇.html">
+      <div class="card-icon-wrap">🤖</div>
+      <div class="card-step">AI 상담</div>
+      <div class="card-title">AI 개인회생<br>상담 챗봇</div>
+      <div class="card-desc">24시간 언제든지 개인회생 관련 궁금한 점을 AI에게 물어보세요.</div>
+      <div class="card-arrow">AI 상담 →</div>
+    </a>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="process-strip">
+  <div class="process-inner">
+    <div class="process-title">개인회생 절차 한눈에 보기</div>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="p-dot">📋</div>
+        <div class="p-label">서류<br>준비</div>
+      </div>
+      <div class="p-arrow">›</div>
+      <div class="process-step">
+        <div class="p-dot">📤</div>
+        <div class="p-label">법원<br>신청</div>
+      </div>
+      <div class="p-arrow">›</div>
+      <div class="process-step">
+        <div class="p-dot">🛡️</div>
+        <div class="p-label">금지<br>명령</div>
+      </div>
+      <div class="p-arrow">›</div>
+      <div class="process-step">
+        <div class="p-dot">⚖️</div>
+        <div class="p-label">개시<br>결정</div>
+      </div>
+      <div class="p-arrow">›</div>
+      <div class="process-step">
+        <div class="p-dot">📝</div>
+        <div class="p-label">계획<br>인가</div>
+      </div>
+      <div class="p-arrow">›</div>
+      <div class="process-step">
+        <div class="p-dot">💸</div>
+        <div class="p-label">변제<br>이행</div>
+      </div>
+      <div class="p-arrow">›</div>
+      <div class="process-step">
+        <div class="p-dot">🌿</div>
+        <div class="p-label">면책<br>결정</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTICE -->
+<div class="notice-section">
+  <div class="notice-card">
+    ⚠️ <strong>법적 면책 고지:</strong> 본 사이트는 개인회생 제도에 관한 일반적인 법률 정보 제공을 목적으로 합니다. 구체적인 사건에 대한 법률 조언을 대체하지 않으며, 정확한 판단을 위해서는 반드시 법무사 또는 변호사와 직접 상담하시기 바랍니다. AI 상담 결과는 참고용이며 법적 효력이 없습니다.
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">⚖️ 개인회생 전문 법무사 사무소</div>
+  <div class="footer-info">
+    평일 09:00 ~ 18:00 · 상담 예약 우선<br>
+    모든 상담 내용은 철저히 비밀이 보장됩니다
+  </div>
+  <div class="footer-links">
+    <a class="footer-link" href="01_자격진단.html">자격진단</a>
+    <a class="footer-link" href="02_비용안내.html">비용안내</a>
+    <a class="footer-link" href="03_절차타임라인.html">절차안내</a>
+    <a class="footer-link" href="04_상담예약.html">상담예약</a>
+    <a class="footer-link" href="개인회생_상담_챗봇.html">AI상담</a>
+  </div>
+</footer>
+
+<!-- 긴급 플로팅 버튼 -->
+<a class="urgent-float" href="04_상담예약.html">🚨 긴급 상담 예약</a>
+
+</body>
+</html>
