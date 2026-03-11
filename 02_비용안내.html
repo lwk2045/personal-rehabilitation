@@ -223,7 +223,7 @@ nav {
     <div class="nav-logo">⚖️</div>
     <div>
       <span class="nav-title">개인회생 상담 시스템 | 이왕국 법무사 사무소</span>
-      <div class="nav-sub">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail <span class="__cf_email__" data-cfemail="402c21372c253800272d21292c6e232f2d">[email&#160;protected]</span></div>
+      <div class="nav-sub">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail <span class="__cf_email__" data-cfemail="f995988e959c81b99e94989095d79a9694">[email&#160;protected]</span></div>
     </div>
   </a>
   <div class="nav-links">
@@ -400,12 +400,6 @@ nav {
 </div>
 
 <script>
-
-function toggleFaq(el) {
-  const item = el.parentElement;
-  item.classList.toggle('open');
-}
-
 function calcCost() {
   const n = parseInt(document.getElementById('creditorCount').value) || 0;
   if (n <= 0) { alert('채권자 수를 입력해 주세요.'); return; }
@@ -416,4 +410,14 @@ function calcCost() {
   document.getElementById('r1').textContent = stamp.toLocaleString() + '원';
   document.getElementById('r2').textContent = delivery.toLocaleString() + '원';
   document.getElementById('r3').textContent = prepay.toLocaleString() + '원';
-  document.getElementById('r4').textContent = total.toLocaleStrin
+  document.getElementById('r4').textContent = total.toLocaleString() + '원';
+  document.getElementById('calcResult').classList.add('show');
+}
+
+function toggleFaq(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+}
+</script>
+</body>
+</html>

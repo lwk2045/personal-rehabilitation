@@ -218,7 +218,7 @@ nav {
     <div class="nav-logo">⚖️</div>
     <div>
       <span class="nav-title">개인회생 상담 시스템 | 이왕국 법무사 사무소</span>
-      <div class="nav-sub">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail <span class="__cf_email__" data-cfemail="ed818c9a818895ad8a808c8481c38e8280">[email&#160;protected]</span></div>
+      <div class="nav-sub">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail <span class="__cf_email__" data-cfemail="e08c81978c8598a0878d81898cce838f8d">[email&#160;protected]</span></div>
     </div>
   </a>
   <div class="nav-links">
@@ -505,4 +505,12 @@ function toggleStep(card) {
 const steps = document.querySelectorAll('.step');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
-    if (e
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 100);
+    }
+  });
+}, { threshold: 0.1 });
+steps.forEach(step => observer.observe(step));
+</script>
+</body>
+</html>
