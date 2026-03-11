@@ -35,7 +35,11 @@ nav {
 .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .nav-logo { width: 32px; height: 32px; background: var(--gold); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .nav-title { font-family: 'Noto Serif KR', serif; color: var(--paper); font-size: 15px; font-weight: 700; }
-.nav-sub { font-size: 11px; color: var(--gold); margin-top: 2px; letter-spacing: 0.2px; }
+.nav-contact { color:rgba(201,168,76,0.85); font-size:11px; margin-top:2px; line-height:1.5; }
+@media (max-width: 600px) {
+  .nav-title { font-size: 13px; }
+  .nav-contact { display: none; }
+}
 .nav-links { display: flex; gap: 4px; }
 .nav-link { color: rgba(245,240,232,0.65); text-decoration: none; font-size: 12.5px; padding: 6px 13px; border-radius: 6px; transition: all 0.2s; border: 1px solid transparent; }
 .nav-link:hover { color: var(--gold); border-color: rgba(201,168,76,0.3); }
@@ -210,24 +214,30 @@ nav {
 .cta-secondary { background: white; border: 1.5px solid var(--border); color: var(--ink); }
 .cta-secondary:hover { border-color: var(--accent); color: var(--accent); }
 </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#c9a84c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="개인회생상담">
+  <link rel="apple-touch-icon" href="/icon-192.png">
 </head>
 <body>
 
 <nav>
-  <a class="nav-brand" href="index.html">
-    <div class="nav-logo">⚖️</div>
-    <div>
+  <div class="nav-top">
+    <a class="nav-brand" href="/index.html" style="cursor:pointer;">
+      <div class="nav-logo">⚖️</div>
       <span class="nav-title">개인회생 상담 시스템 | 이왕국 법무사 사무소</span>
-      <div class="nav-sub">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail lwklex@gmail.com</div>
-    </div>
-  </a>
-  <div class="nav-links">
+    </a>
+    <div class="nav-links">
     <a class="nav-link" href="01_자격진단.html">자격진단</a>
     <a class="nav-link" href="02_비용안내.html">비용안내</a>
     <a class="nav-link active" href="03_절차타임라인.html">절차안내</a>
     <a class="nav-link" href="04_상담예약.html">상담예약</a>
     <a class="nav-link" href="개인회생_상담_챗봇.html">AI상담</a>
+    </div>
   </div>
+  <div class="nav-contact">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail lwklex@gmail.com</div>
 </nav>
 
 <div class="hero">
@@ -494,7 +504,7 @@ nav {
   <a class="cta-btn cta-secondary" href="개인회생_상담_챗봇.html">💬 AI 상담 바로가기</a>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function toggleStep(card) {
   const isActive = card.classList.contains('active');
   document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
@@ -503,14 +513,4 @@ function toggleStep(card) {
 
 // Scroll reveal
 const steps = document.querySelectorAll('.step');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 100);
-    }
-  });
-}, { threshold: 0.1 });
-steps.forEach(step => observer.observe(step));
-</script>
-</body>
-</html>
+const observer = new IntersectionObserver((entries) => 
