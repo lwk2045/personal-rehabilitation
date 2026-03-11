@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>개인회생 자격진단 | 법무사 상담 시스템</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a2e;
+  --paper: #f5f0e8;
+  --paper-dark: #ede8de;
+  --accent: #8b4513;
+  --accent-light: #c4793a;
+  --gold: #c9a84c;
+  --muted: #7a7060;
+  --border: #d4c9b0;
+  --shadow: rgba(26,26,46,0.12);
+  --ok: #2e7d32;
+  --ok-bg: #e8f5e9;
+  --warn: #e65100;
+  --warn-bg: #fff3e0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  background-image: radial-gradient(ellipse at 15% 25%, rgba(139,69,19,0.05) 0%, transparent 55%),
+                    radial-gradient(ellipse at 85% 75%, rgba(44,62,110,0.05) 0%, transparent 55%);
+}
+
+/* NAV */
+nav {
+  background: var(--ink);
+  border-bottom: 3px solid var(--gold);
+  padding: 0 32px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 20px var(--shadow);
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo { width: 32px; height: 32px; background: var(--gold); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.nav-title { font-family: 'Noto Serif KR', serif; color: var(--paper); font-size: 15px; font-weight: 700; }
+.nav-links { display: flex; gap: 4px; }
+.nav-link {
+  color: rgba(245,240,232,0.65);
+  text-decoration: none;
+  font-size: 12.5px;
+  padding: 6px 13px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.nav-link:hover { color: var(--gold); border-color: rgba(201,168,76,0.3); }
+.nav-link.active { color: var(--gold); background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.3); }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--ink) 0%, #2c3e6e 100%);
+  padding: 52px 32px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201,168,76,0.03) 40px, rgba(201,168,76,0.03) 41px);
+}
+.hero-label {
+  display: inline-block;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.4);
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero h1 {
+  font-family: 'Noto Serif KR', serif;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  position: relative;
+}
+.hero p {
+  color: rgba(255,255,255,0.65);
+  font-size: 14px;
+  line-height: 1.7;
+  position: relative;
+}
+
+/* PROGRESS */
+.progress-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 28px 20px 0;
+}
+.progress-bar-outer {
+  background: var(--border);
+  border-radius: 10px;
+  height: 6px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.progress-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  border-radius: 10px;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* QUIZ CONTAINER */
+.quiz-container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 20px 20px 60px;
+}
+
+.question-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 24px var(--shadow);
+  display: none;
+  animation: fadeSlide 0.35s ease;
+}
+.question-card.active { display: block; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-number {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.q-text {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.q-desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--paper);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+}
+.option-btn:hover {
+  border-color: var(--accent-light);
+  background: white;
+  transform: translateX(3px);
+  box-shadow: 0 3px 10px var(--shadow);
+}
+.option-btn.selected {
+  border-color: var(--accent);
+  background: rgba(139,69,19,0.05);
+  color: var(--accent);
+}
+.option-icon {
+  width: 32px; height: 32px;
+  background: var(--paper-dark);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* INPUT TYPE */
+.input-field {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 8px;
+}
+.input-field:focus { border-color: var(--accent-light); background: white; }
+.input-hint { font-size: 12px; color: var(--muted); }
+
+/* NAV BUTTONS */
+.btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; }
+.btn-prev, .btn-next {
+  padding: 11px 24px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+.btn-prev {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+}
+.btn-prev:hover { border-color: var(--accent); color: var(--accent); }
+.btn-next {
+  background: var(--ink);
+  color: var(--gold);
+  padding: 11px 30px;
+}
+.btn-next:hover { background: var(--accent); color: white; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(139,69,19,0.35); }
+.btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* RESULT */
+.result-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px var(--shadow);
+  display: none;
+  animation: fadeSlide 0.4s ease;
+}
+.result-card.show { display: block; }
+.result-header {
+  padding: 32px;
+  text-align: center;
+}
+.result-header.positive { background: linear-gradient(135deg, #1a3a2e, #2e5e40); }
+.result-header.caution  { background: linear-gradient(135deg, #3a1a0a, #6e2e0a); }
+.result-header.negative { background: linear-gradient(135deg, #1a1a2e, #2c3e6e); }
+.result-icon { font-size: 52px; margin-bottom: 12px; }
+.result-title {
+  font-family: 'Noto Serif KR', serif;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.result-subtitle { color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.6; }
+
+.result-body { padding: 28px 32px; }
+.result-items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.result-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.result-item.ok   { background: var(--ok-bg); color: var(--ok); }
+.result-item.warn { background: var(--warn-bg); color: var(--warn); }
+.result-item.info { background: rgba(44,62,110,0.06); color: var(--user-bubble, #2c3e6e); }
+
+.result-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.cta-btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 13px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.cta-primary { background: var(--ink); color: var(--gold); }
+.cta-primary:hover { background: var(--accent); color: white; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(139,69,19,0.3); }
+.cta-secondary { background: white; border: 1.5px solid var(--border); color: var(--ink); }
+.cta-secondary:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#">
+    <div class="nav-logo">⚖️</div>
+    <span class="nav-title">개인회생 상담 시스템</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link active" href="01_자격진단.html">자격진단</a>
+    <a class="nav-link" href="02_비용안내.html">비용안내</a>
+    <a class="nav-link" href="03_절차타임라인.html">절차안내</a>
+    <a class="nav-link" href="04_상담예약.html">상담예약</a>
+    <a class="nav-link" href="개인회생_상담_챗봇.html">AI상담</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">STEP 1 · 자격진단</div>
+  <h1>개인회생 신청 자격 진단</h1>
+  <p>약 2분이면 완료됩니다. 정확한 정보를 입력하실수록 더 정확한 결과를 드릴 수 있습니다.</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar-outer">
+    <div class="progress-bar-inner" id="progressBar" style="width:14%"></div>
+  </div>
+  <div class="progress-label">
+    <span id="progressText">1 / 7</span>
+    <span id="progressPct">14%</span>
+  </div>
+</div>
+
+<div class="quiz-container">
+
+  <!-- Q1 -->
+  <div class="question-card active" data-q="1">
+    <div class="q-number">질문 01 / 07</div>
+    <div class="q-text">현재 안정적인 수입이 있으신가요?</div>
+    <div class="q-desc">개인회생은 반드시 <strong>정기적인 수입</strong>이 있어야 신청 가능합니다. 급여, 사업소득, 연금, 임대료 등 모두 포함됩니다.</div>
+    <div class="options">
+      <button class="option-btn" data-val="yes" onclick="selectOption(this)">
+        <div class="option-icon">💼</div>
+        <div><strong>예</strong> — 급여·사업소득·연금 등 정기 수입이 있습니다</div>
+      </button>
+      <button class="option-btn" data-val="irregular" onclick="selectOption(this)">
+        <div class="option-icon">📊</div>
+        <div><strong>불규칙하게 있습니다</strong> — 월마다 달라지지만 수입은 있습니다</div>
+      </button>
+      <button class="option-btn" data-val="no" onclick="selectOption(this)">
+        <div class="option-icon">🚫</div>
+        <div><strong>아니오</strong> — 현재 수입이 없습니다</div>
+      </button>
+    </div>
+    <div class="btn-row">
+      <span></span>
+      <button class="btn-next" onclick="nextQ()" disabled id="next1">다음 →</button>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card" data-q="2">
+    <div class="q-number">질문 02 / 07</div>
+    <div class="q-text">무담보 채무 총액은 얼마 정도인가요?</div>
+    <div class="q-desc">신용카드, 대출, 현금서비스 등 담보 없는 채무의 합계입니다. 법정 한도는 <strong>5억 원 이하</strong>입니다.</div>
+    <div class="options">
+      <button class="option-btn" data-val="under1" onclick="selectOption(this)">
+        <div class="option-icon">💰</div>
+        <div><strong>1억 원 미만</strong></div>
+      </button>
+      <button class="option-btn" data-val="1to3" onclick="selectOption(this)">
+        <div class="option-icon">💰</div>
+        <div><strong>1억 ~ 3억 원</strong></div>
+      </button>
+      <button class="option-btn" data-val="3to5" onclick="selectOption(this)">
+        <div class="option-icon">💰</div>
+        <div><strong>3억 ~ 5억 원</strong></div>
+      </button>
+      <button class="option-btn" data-val="over5" onclick="selectOption(this)">
+        <div class="option-icon">⚠️</div>
+        <div><strong>5억 원 초과</strong></div>
+      </button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-prev" onclick="prevQ()">← 이전</button>
+      <button class="btn-next" onclick="nextQ()" disabled>다음 →</button>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card" data-q="3">
+    <div class="q-number">질문 03 / 07</div>
+    <div class="q-text">담보 채무(주택담보대출 등)가 있으신가요?</div>
+    <div class="q-desc">아파트·토지 등을 담보로 한 대출입니다. 법정 한도는 <strong>10억 원 이하</strong>입니다.</div>
+    <div class="options">
+      <button class="option-btn" data-val="none" onclick="selectOption(this)">
+        <div class="option-icon">✅</div>
+        <div><strong>없습니다</strong></div>
+      </button>
+      <button class="option-btn" data-val="under5" onclick="selectOption(this)">
+        <div class="option-icon">🏠</div>
+        <div><strong>5억 원 미만</strong></div>
+      </button>
+      <button class="option-btn" data-val="5to10" onclick="selectOption(this)">
+        <div class="option-icon">🏠</div>
+        <div><strong>5억 ~ 10억 원</strong></div>
+      </button>
+      <button class="option-btn" data-val="over10" onclick="selectOption(this)">
+        <div class="option-icon">⚠️</div>
+        <div><strong>10억 원 초과</strong></div>
+      </button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-prev" onclick="prevQ()">← 이전</button>
+      <button class="btn-next" onclick="nextQ()" disabled>다음 →</button>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card" data-q="4">
+    <div class="q-number">질문 04 / 07</div>
+    <div class="q-text">현재 월평균 소득은 얼마 정도인가요?</div>
+    <div class="q-desc">세전 기준 월 평균 수입을 선택해 주세요.</div>
+    <div class="options">
+      <button class="option-btn" data-val="under150" onclick="selectOption(this)">
+        <div class="option-icon">📉</div>
+        <div><strong>150만 원 미만</strong></div>
+      </button>
+      <button class="option-btn" data-val="150to300" onclick="selectOption(this)">
+        <div class="option-icon">📊</div>
+        <div><strong>150만 ~ 300만 원</strong></div>
+      </button>
+      <button class="option-btn" data-val="300to500" onclick="selectOption(this)">
+        <div class="option-icon">📈</div>
+        <div><strong>300만 ~ 500만 원</strong></div>
+      </button>
+      <button class="option-btn" data-val="over500" onclick="selectOption(this)">
+        <div class="option-icon">💎</div>
+        <div><strong>500만 원 이상</strong></div>
+      </button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-prev" onclick="prevQ()">← 이전</button>
+      <button class="btn-next" onclick="nextQ()" disabled>다음 →</button>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-card" data-q="5">
+    <div class="q-number">질문 05 / 07</div>
+    <div class="q-text">과거에 파산·회생·면책 신청을 하신 적 있나요?</div>
+    <div class="q-desc">이전 면책 후 <strong>7년 이내</strong> 재신청은 제한될 수 있습니다.</div>
+    <div class="options">
+      <button class="option-btn" data-val="never" onclick="selectOption(this)">
+        <div class="option-icon">✅</div>
+        <div><strong>없습니다</strong> — 처음 신청입니다</div>
+      </button>
+      <button class="option-btn" data-val="over7" onclick="selectOption(this)">
+        <div class="option-icon">🕐</div>
+        <div><strong>있지만 7년 이상 경과</strong></div>
+      </button>
+      <button class="option-btn" data-val="under7" onclick="selectOption(this)">
+        <div class="option-icon">⚠️</div>
+        <div><strong>있으며 7년 이내</strong></div>
+      </button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-prev" onclick="prevQ()">← 이전</button>
+      <button class="btn-next" onclick="nextQ()" disabled>다음 →</button>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question-card" data-q="6">
+    <div class="q-number">질문 06 / 07</div>
+    <div class="q-text">채무 발생 원인은 무엇인가요?</div>
+    <div class="q-desc">복수의 사유가 있다면 가장 주된 원인을 선택해 주세요.</div>
+    <div class="options">
+      <button class="option-btn" data-val="life" onclick="selectOption(this)">
+        <div class="option-icon">🏥</div>
+        <div><strong>생활비·의료비·교육비</strong></div>
+      </button>
+      <button class="option-btn" data-val="business" onclick="selectOption(this)">
+        <div class="option-icon">📉</div>
+        <div><strong>사업 실패·투자 손실</strong></div>
+      </button>
+      <button class="option-btn" data-val="guarantee" onclick="selectOption(this)">
+        <div class="option-icon">🤝</div>
+        <div><strong>보증채무</strong></div>
+      </button>
+      <button class="option-btn" data-val="gambling" onclick="selectOption(this)">
+        <div class="option-icon">🎲</div>
+        <div><strong>도박·사행성 (면책 불허 사유 가능)</strong></div>
+      </button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-prev" onclick="prevQ()">← 이전</button>
+      <button class="btn-next" onclick="nextQ()" disabled>다음 →</button>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question-card" data-q="7">
+    <div class="q-number">질문 07 / 07</div>
+    <div class="q-text">현재 채권자로부터 압류·추심을 받고 계신가요?</div>
+    <div class="q-desc">급여 압류, 통장 압류, 추심 전화 등이 해당됩니다.</div>
+    <div class="options">
+      <button class="option-btn" data-val="yes_urgent" onclick="selectOption(this)">
+        <div class="option-icon">🚨</div>
+        <div><strong>예, 현재 진행 중</strong> — 빠른 조치가 필요합니다</div>
+      </button>
+      <button class="option-btn" data-val="yes_past" onclick="selectOption(this)">
+        <div class="option-icon">⚠️</div>
+        <div><strong>과거에 있었습니다</strong></div>
+      </button>
+      <button class="option-btn" data-val="no" onclick="selectOption(this)">
+        <div class="option-icon">😌</div>
+        <div><strong>아직 없습니다</strong></div>
+      </button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-prev" onclick="prevQ()">← 이전</button>
+      <button class="btn-next" onclick="showResult()" disabled id="submitBtn">진단 결과 보기 →</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-card" id="resultCard">
+    <div class="result-header" id="resultHeader">
+      <div class="result-icon" id="resultIcon">🌿</div>
+      <div class="result-title" id="resultTitle">진단 중...</div>
+      <div class="result-subtitle" id="resultSubtitle"></div>
+    </div>
+    <div class="result-body">
+      <div class="result-items" id="resultItems"></div>
+      <div class="result-cta-row">
+        <a class="cta-btn cta-primary" href="04_상담예약.html">📅 상담 예약하기</a>
+        <a class="cta-btn cta-secondary" href="개인회생_상담_챗봇.html">💬 AI 상담 바로가기</a>
+        <button class="cta-btn cta-secondary" onclick="resetQuiz()">🔄 다시 진단하기</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let current = 1;
+const total = 7;
+const answers = {};
+
+function selectOption(btn) {
+  const card = btn.closest('.question-card');
+  card.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[current] = btn.dataset.val;
+  const nextBtn = card.querySelector('.btn-next');
+  if (nextBtn) nextBtn.disabled = false;
+}
+
+function updateProgress() {
+  const pct = Math.round((current / total) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = current + ' / ' + total;
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+function nextQ() {
+  if (current >= total) return;
+  document.querySelector(`[data-q="${current}"]`).classList.remove('active');
+  current++;
+  document.querySelector(`[data-q="${current}"]`).classList.add('active');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevQ() {
+  if (current <= 1) return;
+  document.querySelector(`[data-q="${current}"]`).classList.remove('active');
+  current--;
+  document.querySelector(`[data-q="${current}"]`).classList.add('active');
+  const card = document.querySelector(`[data-q="${current}"]`);
+  const nextBtn = card.querySelector('.btn-next');
+  if (answers[current] && nextBtn) nextBtn.disabled = false;
+  updateProgress();
+}
+
+function showResult() {
+  document.querySelector(`[data-q="${total}"]`).classList.remove('active');
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressText').textContent = '완료';
+  document.getElementById('progressPct').textContent = '100%';
+
+  const a = answers;
+  let score = 0;
+  const items = [];
+
+  // Income check
+  if (a[1] === 'yes') { score += 2; items.push({t:'ok', txt:'✅ 정기 수입이 있어 기본 자격을 충족합니다'}); }
+  else if (a[1] === 'irregular') { score += 1; items.push({t:'warn', txt:'⚠️ 불규칙 수입의 경우 소득 증빙이 중요합니다'}); }
+  else { score -= 2; items.push({t:'warn', txt:'❌ 수입이 없으면 개인회생 대신 파산이 검토될 수 있습니다'}); }
+
+  // Unsecured debt
+  if (a[2] === 'over5') { score -= 3; items.push({t:'warn', txt:'❌ 무담보채무 5억 초과 — 개인회생 신청 한도 초과입니다'}); }
+  else { score += 1; items.push({t:'ok', txt:'✅ 무담보채무가 법정 한도(5억) 이내입니다'}); }
+
+  // Secured debt
+  if (a[3] === 'over10') { score -= 3; items.push({t:'warn', txt:'❌ 담보채무 10억 초과 — 개인회생 신청 한도 초과입니다'}); }
+  else if (a[3] === 'none') { score += 1; items.push({t:'ok', txt:'✅ 담보채무가 없어 절차가 비교적 단순합니다'}); }
+  else { score += 1; items.push({t:'ok', txt:'✅ 담보채무가 법정 한도(10억) 이내입니다'}); }
+
+  // Prior bankruptcy
+  if (a[5] === 'under7') { score -= 2; items.push({t:'warn', txt:'⚠️ 7년 이내 면책 이력 — 재신청에 제한이 있을 수 있습니다'}); }
+  else if (a[5] === 'never') { score += 1; items.push({t:'ok', txt:'✅ 이전 면책 이력이 없어 제한 없이 신청 가능합니다'}); }
+
+  // Cause
+  if (a[6] === 'gambling') { items.push({t:'warn', txt:'⚠️ 도박 기인 채무는 면책 불허 사유가 될 수 있습니다. 상담 필수'}); score -= 1; }
+  else { items.push({t:'ok', txt:'✅ 채무 발생 원인이 일반적인 면책 사유에 해당합니다'}); score += 1; }
+
+  // Urgent
+  if (a[7] === 'yes_urgent') { items.push({t:'warn', txt:'🚨 현재 압류·추심 진행 중 — 포괄적 금지명령 신청이 시급합니다'}); }
+
+  // Grade
+  const header = document.getElementById('resultHeader');
+  const icon = document.getElementById('resultIcon');
+  const title = document.getElementById('resultTitle');
+  const subtitle = document.getElementById('resultSubtitle');
+
+  if (score >= 4) {
+    header.className = 'result-header positive';
+    icon.textContent = '🌿';
+    title.textContent = '개인회생 신청 가능성 높음';
+    subtitle.textContent = '기본 요건을 충족하고 있습니다. 법무사와 상담하여 구체적인 신청 계획을 세우시기 바랍니다.';
+  } else if (score >= 1) {
+    header.className = 'result-header caution';
+    icon.textContent = '⚠️';
+    title.textContent = '일부 검토 필요 — 상담 권장';
+    subtitle.textContent = '신청 가능하나 주의해야 할 사항이 있습니다. 법무사 상담을 통해 정확한 검토를 받으시기 바랍니다.';
+  } else {
+    header.className = 'result-header negative';
+    icon.textContent = '📋';
+    title.textContent = '개인파산 또는 다른 방법 검토 필요';
+    subtitle.textContent = '개인회생 신청이 어려울 수 있습니다. 개인파산, 채무조정 등 다른 방법을 함께 검토해 드립니다.';
+  }
+
+  const itemsEl = document.getElementById('resultItems');
+  itemsEl.innerHTML = items.map(i => `<div class="result-item ${i.t}">${i.txt}</div>`).join('');
+
+  document.getElementById('resultCard').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  Object.keys(answers).forEach(k => delete answers[k]);
+  current = 1;
+  document.querySelectorAll('.question-card').forEach(c => c.classList.remove('active'));
+  document.querySelector('[data-q="1"]').classList.add('active');
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.btn-next').forEach(b => b.disabled = true);
+  document.getElementById('resultCard').classList.remove('show');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

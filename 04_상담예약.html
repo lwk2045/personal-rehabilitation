@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상담 예약 | 개인회생 상담 시스템</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a2e;
+  --paper: #f5f0e8;
+  --paper-dark: #ede8de;
+  --accent: #8b4513;
+  --accent-light: #c4793a;
+  --gold: #c9a84c;
+  --muted: #7a7060;
+  --border: #d4c9b0;
+  --shadow: rgba(26,26,46,0.12);
+  --ok: #2e7d32;
+  --ok-bg: #e8f5e9;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 5% 50%, rgba(139,69,19,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 95% 30%, rgba(44,62,110,0.05) 0%, transparent 50%);
+}
+nav {
+  background: var(--ink);
+  border-bottom: 3px solid var(--gold);
+  padding: 0 32px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 20px var(--shadow);
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo { width: 32px; height: 32px; background: var(--gold); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.nav-title { font-family: 'Noto Serif KR', serif; color: var(--paper); font-size: 15px; font-weight: 700; }
+.nav-links { display: flex; gap: 4px; }
+.nav-link { color: rgba(245,240,232,0.65); text-decoration: none; font-size: 12.5px; padding: 6px 13px; border-radius: 6px; transition: all 0.2s; border: 1px solid transparent; }
+.nav-link:hover { color: var(--gold); border-color: rgba(201,168,76,0.3); }
+.nav-link.active { color: var(--gold); background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.3); }
+
+.hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #3a1810 50%, var(--accent) 100%);
+  padding: 52px 32px 40px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 70% 50%, rgba(201,168,76,0.08) 0%, transparent 60%);
+}
+.hero-label { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.9); font-size: 11px; letter-spacing: 2px; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; position: relative; }
+.hero h1 { font-family: 'Noto Serif KR', serif; color: #fff; font-size: 28px; font-weight: 700; margin-bottom: 10px; position: relative; }
+.hero p { color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.7; position: relative; }
+
+/* LAYOUT */
+.page-body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+@media(max-width: 720px) { .page-body { grid-template-columns: 1fr; } }
+
+/* FORM CARD */
+.form-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 24px var(--shadow);
+}
+.form-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.form-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
+
+.form-section { margin-bottom: 24px; }
+.form-section-title {
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media(max-width:500px) { .field-row { grid-template-columns: 1fr; } }
+
+.field { margin-bottom: 14px; }
+.field label {
+  display: block;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.field label .req { color: var(--accent); margin-left: 3px; }
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--accent-light);
+  background: white;
+}
+.field textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+.field select { cursor: pointer; }
+
+/* CHECKBOX GROUP */
+.check-group { display: flex; flex-direction: column; gap: 8px; }
+.check-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.check-item input[type=checkbox] { display: none; }
+.check-box {
+  width: 20px; height: 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  background: var(--paper);
+}
+.check-item input:checked ~ .check-box {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.check-item input:checked ~ .check-box::after { content: '✓'; font-size: 12px; font-weight: 700; }
+.check-label { font-size: 13.5px; color: var(--ink); }
+
+/* TIME SLOTS */
+.time-slots { display: flex; flex-wrap: wrap; gap: 8px; }
+.time-slot {
+  padding: 7px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--paper);
+  user-select: none;
+}
+.time-slot:hover { border-color: var(--accent-light); color: var(--accent); }
+.time-slot.selected { background: var(--accent); border-color: var(--accent); color: white; }
+
+/* PRIVACY */
+.privacy-box {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 12px 14px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+/* SUBMIT */
+.submit-btn {
+  width: 100%;
+  background: var(--ink);
+  color: var(--gold);
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+.submit-btn:hover { background: var(--accent); color: white; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139,69,19,0.35); }
+
+/* SUCCESS */
+.success-overlay {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeSlide 0.4s ease;
+}
+.success-overlay.show { display: block; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.success-icon { font-size: 56px; margin-bottom: 16px; }
+.success-title { font-family: 'Noto Serif KR', serif; font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+.success-desc { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 24px; }
+.success-info {
+  background: var(--ok-bg);
+  border: 1px solid #a5d6a7;
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-size: 13.5px;
+  color: var(--ok);
+  text-align: left;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+/* SIDEBAR */
+.sidebar-col { display: flex; flex-direction: column; gap: 16px; }
+
+.info-box {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+.info-box-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.info-row {
+  display: flex;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row-label { color: var(--muted); flex-shrink: 0; width: 60px; }
+.info-row-val { color: var(--ink); font-weight: 500; }
+
+.urgent-box {
+  background: linear-gradient(135deg, #3a1810, var(--accent));
+  border-radius: 14px;
+  padding: 22px;
+  color: white;
+}
+.urgent-title { font-family: 'Noto Serif KR', serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--gold); }
+.urgent-desc { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.7; margin-bottom: 14px; }
+.urgent-btn {
+  display: block;
+  background: var(--gold);
+  color: var(--ink);
+  text-align: center;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.urgent-btn:hover { background: #e0bd5c; transform: translateY(-1px); }
+
+.step-mini { display: flex; flex-direction: column; gap: 8px; }
+.step-mini-item { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; }
+.step-mini-num {
+  width: 22px; height: 22px;
+  background: var(--ink);
+  color: var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.step-mini-text { color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#">
+    <div class="nav-logo">⚖️</div>
+    <span class="nav-title">개인회생 상담 시스템</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="01_자격진단.html">자격진단</a>
+    <a class="nav-link" href="02_비용안내.html">비용안내</a>
+    <a class="nav-link" href="03_절차타임라인.html">절차안내</a>
+    <a class="nav-link active" href="04_상담예약.html">상담예약</a>
+    <a class="nav-link" href="개인회생_상담_챗봇.html">AI상담</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">STEP 4 · 상담예약</div>
+  <h1>상담 예약</h1>
+  <p>아래 양식을 작성하시면 빠른 시간 내에 연락드리겠습니다. 모든 상담은 비밀이 보장됩니다.</p>
+</div>
+
+<div class="page-body">
+
+  <!-- FORM -->
+  <div class="form-card">
+    <div id="formArea">
+      <div class="form-title">상담 신청서</div>
+      <div class="form-subtitle">* 표시 항목은 필수 입력 사항입니다. 정확하게 입력해 주실수록 더 빠른 안내가 가능합니다.</div>
+
+      <!-- 기본 정보 -->
+      <div class="form-section">
+        <div class="form-section-title">기본 정보</div>
+        <div class="field-row">
+          <div class="field">
+            <label>성함 <span class="req">*</span></label>
+            <input type="text" id="name" placeholder="홍길동">
+          </div>
+          <div class="field">
+            <label>연락처 <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="010-0000-0000">
+          </div>
+        </div>
+        <div class="field">
+          <label>이메일</label>
+          <input type="email" id="email" placeholder="example@email.com">
+        </div>
+        <div class="field">
+          <label>거주 지역 <span class="req">*</span></label>
+          <select id="region">
+            <option value="">선택해 주세요</option>
+            <option>서울특별시</option><option>인천광역시</option><option>경기도</option>
+            <option>부산광역시</option><option>대구광역시</option><option>광주광역시</option>
+            <option>대전광역시</option><option>울산광역시</option><option>세종특별자치시</option>
+            <option>강원도</option><option>충청북도</option><option>충청남도</option>
+            <option>전라북도</option><option>전라남도</option><option>경상북도</option>
+            <option>경상남도</option><option>제주특별자치도</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 채무 현황 -->
+      <div class="form-section">
+        <div class="form-section-title">채무 현황</div>
+        <div class="field-row">
+          <div class="field">
+            <label>무담보 채무 총액 <span class="req">*</span></label>
+            <select id="unsecured">
+              <option value="">선택</option>
+              <option>1,000만원 미만</option>
+              <option>1,000만 ~ 5,000만원</option>
+              <option>5,000만 ~ 1억원</option>
+              <option>1억 ~ 3억원</option>
+              <option>3억 ~ 5억원</option>
+              <option>5억원 초과</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>담보 채무 여부</label>
+            <select id="secured">
+              <option>없음</option>
+              <option>5억원 미만</option>
+              <option>5억 ~ 10억원</option>
+              <option>10억원 초과</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>채무 발생 주요 원인</label>
+          <select id="cause">
+            <option value="">선택</option>
+            <option>생활비·의료비 등 생계형</option>
+            <option>사업 실패·투자 손실</option>
+            <option>보증채무</option>
+            <option>실직·소득 감소</option>
+            <option>기타</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>현재 압류·추심 진행 여부</label>
+          <div class="check-group" style="flex-direction:row; flex-wrap:wrap; gap:14px; margin-top:4px">
+            <label class="check-item">
+              <input type="radio" name="enforcement" value="yes">
+              <div class="check-box"></div>
+              <span class="check-label">예 (압류·추심 중)</span>
+            </label>
+            <label class="check-item">
+              <input type="radio" name="enforcement" value="no" checked>
+              <div class="check-box"></div>
+              <span class="check-label">아니오</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 상담 방식 -->
+      <div class="form-section">
+        <div class="form-section-title">상담 방식 및 일정</div>
+        <div class="field">
+          <label>선호 상담 방식 <span class="req">*</span></label>
+          <div class="check-group" style="flex-direction:row; flex-wrap:wrap; gap:14px; margin-top:4px">
+            <label class="check-item">
+              <input type="radio" name="method" value="visit">
+              <div class="check-box"></div>
+              <span class="check-label">🏢 방문 상담</span>
+            </label>
+            <label class="check-item">
+              <input type="radio" name="method" value="phone" checked>
+              <div class="check-box"></div>
+              <span class="check-label">📞 전화 상담</span>
+            </label>
+            <label class="check-item">
+              <input type="radio" name="method" value="video">
+              <div class="check-box"></div>
+              <span class="check-label">💻 화상 상담</span>
+            </label>
+          </div>
+        </div>
+        <div class="field">
+          <label>선호 상담 시간대</label>
+          <div class="time-slots">
+            <div class="time-slot" onclick="toggleTime(this)">오전 9시~10시</div>
+            <div class="time-slot" onclick="toggleTime(this)">오전 10시~11시</div>
+            <div class="time-slot" onclick="toggleTime(this)">오전 11시~12시</div>
+            <div class="time-slot" onclick="toggleTime(this)">오후 13시~14시</div>
+            <div class="time-slot" onclick="toggleTime(this)">오후 14시~15시</div>
+            <div class="time-slot" onclick="toggleTime(this)">오후 15시~16시</div>
+            <div class="time-slot" onclick="toggleTime(this)">오후 16시~17시</div>
+            <div class="time-slot" onclick="toggleTime(this)">저녁 17시 이후</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>문의 내용 또는 특이사항</label>
+          <textarea id="memo" placeholder="예: 급여 압류 중이라 빠른 처리가 필요합니다. / 개인회생과 파산 중 어떤 것이 나은지 비교 상담 원합니다."></textarea>
+        </div>
+      </div>
+
+      <!-- 개인정보 동의 -->
+      <div class="form-section">
+        <div class="form-section-title">개인정보 동의</div>
+        <div class="privacy-box">
+          [개인정보 수집·이용 동의] 수집 항목: 성명, 연락처, 이메일, 채무 현황 등. 수집 목적: 상담 예약 및 법무 서비스 제공. 보유 기간: 상담 종료 후 1년. 위 항목에 동의하지 않을 경우 상담 예약이 제한될 수 있습니다.
+        </div>
+        <label class="check-item">
+          <input type="checkbox" id="privacyAgree">
+          <div class="check-box"></div>
+          <span class="check-label" style="font-size:13.5px">개인정보 수집·이용에 동의합니다 <span style="color:var(--accent)">*</span></span>
+        </label>
+      </div>
+
+      <button class="submit-btn" onclick="submitForm()">📅 상담 예약 신청하기</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-overlay" id="successArea">
+      <div class="success-icon">✅</div>
+      <div class="success-title">상담 신청이 완료되었습니다</div>
+      <div class="success-desc">입력하신 연락처로 <strong>1 영업일 이내</strong>에 연락드리겠습니다.<br>급한 사항은 전화로 직접 문의해 주세요.</div>
+      <div class="success-info" id="successSummary"></div>
+      <a href="개인회생_상담_챗봇.html" style="display:block; background:var(--ink); color:var(--gold); text-align:center; padding:13px; border-radius:10px; text-decoration:none; font-size:14px; font-weight:700;">💬 기다리는 동안 AI 상담 이용하기</a>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar-col">
+
+    <div class="urgent-box">
+      <div class="urgent-title">🚨 긴급 압류·추심 중이신가요?</div>
+      <div class="urgent-desc">급여·통장 압류가 진행 중이라면 즉시 포괄적 금지명령 신청이 필요합니다. 전화로 먼저 연락해 주세요.</div>
+      <a class="urgent-btn" href="tel:010-0000-0000">📞 긴급 전화 상담</a>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-title">🏢 사무실 정보</div>
+      <div class="info-row">
+        <div class="info-row-label">전화</div>
+        <div class="info-row-val">010-0000-0000</div>
+      </div>
+      <div class="info-row">
+        <div class="info-row-label">팩스</div>
+        <div class="info-row-val">02-000-0000</div>
+      </div>
+      <div class="info-row">
+        <div class="info-row-label">운영</div>
+        <div class="info-row-val">평일 09:00 ~ 18:00</div>
+      </div>
+      <div class="info-row">
+        <div class="info-row-label">위치</div>
+        <div class="info-row-val">서울 / 인천 관할</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-title">📋 상담 후 진행 순서</div>
+      <div class="step-mini">
+        <div class="step-mini-item">
+          <div class="step-mini-num">1</div>
+          <div class="step-mini-text">상담 예약 접수 → 확인 연락</div>
+        </div>
+        <div class="step-mini-item">
+          <div class="step-mini-num">2</div>
+          <div class="step-mini-text">초기 상담 (채무 현황·자격 검토)</div>
+        </div>
+        <div class="step-mini-item">
+          <div class="step-mini-num">3</div>
+          <div class="step-mini-text">서류 준비 안내 및 비용 협의</div>
+        </div>
+        <div class="step-mini-item">
+          <div class="step-mini-num">4</div>
+          <div class="step-mini-text">신청서 작성 및 법원 제출</div>
+        </div>
+        <div class="step-mini-item">
+          <div class="step-mini-num">5</div>
+          <div class="step-mini-text">절차 완료까지 지속 지원</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Radio checkboxes custom
+document.querySelectorAll('.check-item input[type=radio]').forEach(r => {
+  r.addEventListener('change', () => {
+    const name = r.name;
+    document.querySelectorAll(`input[name="${name}"]`).forEach(i => {
+      i.closest('.check-item').querySelector('.check-box').innerHTML = '';
+    });
+    if (r.checked) {
+      r.closest('.check-item').querySelector('.check-box').innerHTML = '✓';
+      r.closest('.check-item').querySelector('.check-box').style.background = 'var(--accent)';
+      r.closest('.check-item').querySelector('.check-box').style.borderColor = 'var(--accent)';
+      r.closest('.check-item').querySelector('.check-box').style.color = 'white';
+    }
+  });
+});
+
+function toggleTime(el) {
+  el.classList.toggle('selected');
+}
+
+function submitForm() {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const region = document.getElementById('region').value;
+  const unsecured = document.getElementById('unsecured').value;
+  const privacy = document.getElementById('privacyAgree').checked;
+
+  if (!name) { alert('성함을 입력해 주세요.'); return; }
+  if (!phone) { alert('연락처를 입력해 주세요.'); return; }
+  if (!region) { alert('거주 지역을 선택해 주세요.'); return; }
+  if (!unsecured) { alert('무담보 채무 총액을 선택해 주세요.'); return; }
+  if (!privacy) { alert('개인정보 수집·이용에 동의해 주세요.'); return; }
+
+  const method = document.querySelector('input[name="method"]:checked');
+  const selectedTimes = [...document.querySelectorAll('.time-slot.selected')].map(t => t.textContent).join(', ') || '미선택';
+
+  document.getElementById('successSummary').innerHTML = `
+    ✅ 신청자: ${name}<br>
+    📞 연락처: ${phone}<br>
+    📍 지역: ${region}<br>
+    💬 상담 방식: ${method ? method.value === 'visit' ? '방문' : method.value === 'phone' ? '전화' : '화상' : '-'}<br>
+    🕐 선호 시간: ${selectedTimes}
+  `;
+
+  document.getElementById('formArea').style.display = 'none';
+  document.getElementById('successArea').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
