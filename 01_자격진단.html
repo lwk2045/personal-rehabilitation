@@ -35,29 +35,18 @@ body {
 nav {
   background: var(--ink);
   border-bottom: 3px solid var(--gold);
-  padding: 8px 16px;
-  min-height: 60px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  position: sticky; top: 0; z-index: 100;
-  box-shadow: 0 2px 20px var(--shadow);
-}
-.nav-top {
+  padding: 0 32px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 20px var(--shadow);
 }
-.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
-.nav-logo { width: 32px; height: 32px; background: var(--gold); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo { width: 32px; height: 32px; background: var(--gold); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .nav-title { font-family: 'Noto Serif KR', serif; color: var(--paper); font-size: 15px; font-weight: 700; }
-.nav-contact { color:rgba(201,168,76,0.9); font-size:11px; margin-top:4px; line-height:1.6; padding-left: 42px; }
-@media (max-width: 768px) {
-  .nav-title { font-size: 13px; }
-  .nav-contact { font-size: 10.5px; }
-}
+.nav-sub { font-size: 11px; color: var(--gold); margin-top: 2px; letter-spacing: 0.2px; }
 .nav-links { display: flex; gap: 4px; }
 .nav-link {
   color: rgba(245,240,232,0.65);
@@ -322,30 +311,24 @@ nav {
 .cta-secondary { background: white; border: 1.5px solid var(--border); color: var(--ink); }
 .cta-secondary:hover { border-color: var(--accent); color: var(--accent); }
 </style>
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#c9a84c">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="개인회생상담">
-  <link rel="apple-touch-icon" href="/icon-192.png">
 </head>
 <body>
 
 <nav>
-  <div class="nav-top">
-    <a class="nav-brand" href="/index.html" style="cursor:pointer;">
-      <div class="nav-logo">⚖️</div>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo">⚖️</div>
+    <div>
       <span class="nav-title">개인회생 상담 시스템 | 이왕국 법무사 사무소</span>
-    </a>
-    <div class="nav-links">
+      <div class="nav-sub">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail lwklex@gmail.com</div>
+    </div>
+  </a>
+  <div class="nav-links">
     <a class="nav-link active" href="01_자격진단.html">자격진단</a>
     <a class="nav-link" href="02_비용안내.html">비용안내</a>
     <a class="nav-link" href="03_절차타임라인.html">절차안내</a>
     <a class="nav-link" href="04_상담예약.html">상담예약</a>
     <a class="nav-link" href="개인회생_상담_챗봇.html">AI상담</a>
-    </div>
   </div>
-  <div class="nav-contact">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail lwklex@gmail.com</div>
 </nav>
 
 <div class="hero">
@@ -576,7 +559,7 @@ nav {
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 let current = 1;
 const total = 7;
 const answers = {};
@@ -687,4 +670,10 @@ function resetQuiz() {
   current = 1;
   document.querySelectorAll('.question-card').forEach(c => c.classList.remove('active'));
   document.querySelector('[data-q="1"]').classList.add('active');
-  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.btn-next').forEach(b => b.disabled = true);
+  document.getElementById('resultCard').classList.remove('show');
+}
+</script>
+</body>
+</html>
