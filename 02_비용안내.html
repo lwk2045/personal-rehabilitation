@@ -37,7 +37,6 @@ nav {
 .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .nav-logo { width: 32px; height: 32px; background: var(--gold); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .nav-title { font-family: 'Noto Serif KR', serif; color: var(--paper); font-size: 15px; font-weight: 700; }
-.nav-sub { font-size: 11px; color: var(--gold); margin-top: 2px; letter-spacing: 0.2px; }
 .nav-links { display: flex; gap: 4px; }
 .nav-link { color: rgba(245,240,232,0.65); text-decoration: none; font-size: 12.5px; padding: 6px 13px; border-radius: 6px; transition: all 0.2s; border: 1px solid transparent; }
 .nav-link:hover { color: var(--gold); border-color: rgba(201,168,76,0.3); }
@@ -215,16 +214,19 @@ nav {
 .faq-item.open .arrow { transform: rotate(180deg); color: var(--accent); }
 .faq-item.open .faq-a { display: block; }
 </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#c9a84c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="개인회생상담">
+  <link rel="apple-touch-icon" href="/icon-192.png">
 </head>
 <body>
 
 <nav>
-  <a class="nav-brand" href="index.html">
+  <a class="nav-brand" href="#">
     <div class="nav-logo">⚖️</div>
-    <div>
-      <span class="nav-title">개인회생 상담 시스템 | 이왕국 법무사 사무소</span>
-      <div class="nav-sub">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail lawlex@gmail.com</div>
-    </div>
+    <span class="nav-title">개인회생 상담 시스템 | 이왕국 법무사 사무소</span>
   </a>
   <div class="nav-links">
     <a class="nav-link" href="01_자격진단.html">자격진단</a>
@@ -417,6 +419,13 @@ function calcCost() {
 function toggleFaq(el) {
   const item = el.parentElement;
   item.classList.toggle('open');
+}
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js');
+  });
 }
 </script>
 </body>
