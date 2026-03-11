@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -733,7 +734,7 @@ async function sendMessage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 1000,
         system: SYSTEM_PROMPT,
         messages: messages
@@ -749,8 +750,7 @@ async function sendMessage() {
 
   } catch (err) {
     typing.style.display = 'none';
-    const errMsg = err.message || '알 수 없는 오류';
-    appendMessage('ai', `⚠️ 연결에 문제가 발생했습니다.<br><small style="color:#999">${errMsg}</small>`);
+    appendMessage('ai', '⚠️ 연결에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     console.error(err);
   }
 
