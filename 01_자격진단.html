@@ -564,7 +564,7 @@ nav {
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 let current = 1;
 const total = 7;
 const answers = {};
@@ -679,15 +679,4 @@ function resetQuiz() {
   document.querySelectorAll('.btn-next').forEach(b => b.disabled = true);
   document.getElementById('resultCard').classList.remove('show');
   updateProgress();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js');
-  });
-}
-</script>
-</body>
-</html>
+  window.scrollTo({ top: 0, behavi

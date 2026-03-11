@@ -404,7 +404,7 @@ nav {
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function calcCost() {
   const n = parseInt(document.getElementById('creditorCount').value) || 0;
   if (n <= 0) { alert('채권자 수를 입력해 주세요.'); return; }
@@ -421,15 +421,4 @@ function calcCost() {
 
 function toggleFaq(el) {
   const item = el.parentElement;
-  item.classList.toggle('open');
-}
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js');
-  });
-}
-</script>
-</body>
-</html>
+  item.classList

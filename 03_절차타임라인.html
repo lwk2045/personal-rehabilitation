@@ -499,7 +499,7 @@ nav {
   <a class="cta-btn cta-secondary" href="개인회생_상담_챗봇.html">💬 AI 상담 바로가기</a>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function toggleStep(card) {
   const isActive = card.classList.contains('active');
   document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
@@ -516,14 +516,4 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 
-steps.forEach(s => observer.observe(s));
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js');
-  });
-}
-</script>
-</body>
-</html>
+steps.forEach(s => obs

@@ -547,7 +547,7 @@ nav {
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Radio checkboxes custom
 document.querySelectorAll('.check-item input[type=radio]').forEach(r => {
   r.addEventListener('change', () => {
@@ -592,7 +592,7 @@ async function submitForm() {
   const formData = new FormData(form);
 
   try {
-    const response = await fetch('/', {
+    const response = await fetch('/04_상담예약.html', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(formData).toString()
@@ -614,16 +614,4 @@ async function submitForm() {
     }
   } catch(err) {
     alert('네트워크 오류가 발생했습니다. 다시 시도해 주세요.');
-    console.error(err);
-  }
-}
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js');
-  });
-}
-</script>
-</body>
-</html>
+    console
