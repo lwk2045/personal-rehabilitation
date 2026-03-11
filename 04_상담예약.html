@@ -40,6 +40,7 @@ nav {
 .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .nav-logo { width: 32px; height: 32px; background: var(--gold); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .nav-title { font-family: 'Noto Serif KR', serif; color: var(--paper); font-size: 15px; font-weight: 700; }
+.nav-sub { font-size: 11px; color: var(--gold); margin-top: 2px; letter-spacing: 0.2px; }
 .nav-links { display: flex; gap: 4px; }
 .nav-link { color: rgba(245,240,232,0.65); text-decoration: none; font-size: 12.5px; padding: 6px 13px; border-radius: 6px; transition: all 0.2s; border: 1px solid transparent; }
 .nav-link:hover { color: var(--gold); border-color: rgba(201,168,76,0.3); }
@@ -295,9 +296,12 @@ nav {
 <body>
 
 <nav>
-  <a class="nav-brand" href="#">
+  <a class="nav-brand" href="index.html">
     <div class="nav-logo">⚖️</div>
-    <span class="nav-title">개인회생 상담 시스템</span>
+    <div>
+      <span class="nav-title">개인회생 상담 시스템 | 이왕국 법무사 사무소</span>
+      <div class="nav-sub">서울시 관악구 남부순환로 1808, 1211호 · Tel 02-6166-2050 · Fax 02-6166-2055 · E-mail lawlex@gmail.com</div>
+    </div>
   </a>
   <div class="nav-links">
     <a class="nav-link" href="01_자격진단.html">자격진단</a>
@@ -319,6 +323,9 @@ nav {
   <!-- FORM -->
   <div class="form-card">
     <div id="formArea">
+      <form name="consultation" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="consultForm">
+      <input type="hidden" name="form-name" value="consultation">
+      <p style="display:none"><label>봇방지: <input name="bot-field"></label></p>
       <div class="form-title">상담 신청서</div>
       <div class="form-subtitle">* 표시 항목은 필수 입력 사항입니다. 정확하게 입력해 주실수록 더 빠른 안내가 가능합니다.</div>
 
@@ -328,20 +335,20 @@ nav {
         <div class="field-row">
           <div class="field">
             <label>성함 <span class="req">*</span></label>
-            <input type="text" id="name" placeholder="홍길동">
+            <input type="text" id="name" name="성함" placeholder="홍길동">
           </div>
           <div class="field">
             <label>연락처 <span class="req">*</span></label>
-            <input type="tel" id="phone" placeholder="010-0000-0000">
+            <input type="tel" id="phone" name="연락처" placeholder="02-6166-2050">
           </div>
         </div>
         <div class="field">
           <label>이메일</label>
-          <input type="email" id="email" placeholder="example@email.com">
+          <input type="email" id="email" name="이메일" placeholder="example@email.com">
         </div>
         <div class="field">
           <label>거주 지역 <span class="req">*</span></label>
-          <select id="region">
+          <select id="region" name="거주지역">
             <option value="">선택해 주세요</option>
             <option>서울특별시</option><option>인천광역시</option><option>경기도</option>
             <option>부산광역시</option><option>대구광역시</option><option>광주광역시</option>
@@ -359,7 +366,7 @@ nav {
         <div class="field-row">
           <div class="field">
             <label>무담보 채무 총액 <span class="req">*</span></label>
-            <select id="unsecured">
+            <select id="unsecured" name="무담보채무">
               <option value="">선택</option>
               <option>1,000만원 미만</option>
               <option>1,000만 ~ 5,000만원</option>
@@ -371,7 +378,7 @@ nav {
           </div>
           <div class="field">
             <label>담보 채무 여부</label>
-            <select id="secured">
+            <select id="secured" name="담보채무">
               <option>없음</option>
               <option>5억원 미만</option>
               <option>5억 ~ 10억원</option>
@@ -381,7 +388,7 @@ nav {
         </div>
         <div class="field">
           <label>채무 발생 주요 원인</label>
-          <select id="cause">
+          <select id="cause" name="채무원인">
             <option value="">선택</option>
             <option>생활비·의료비 등 생계형</option>
             <option>사업 실패·투자 손실</option>
@@ -394,12 +401,12 @@ nav {
           <label>현재 압류·추심 진행 여부</label>
           <div class="check-group" style="flex-direction:row; flex-wrap:wrap; gap:14px; margin-top:4px">
             <label class="check-item">
-              <input type="radio" name="enforcement" value="yes">
+              <input type="radio" name="압류추심" value="예(압류추심중)">
               <div class="check-box"></div>
               <span class="check-label">예 (압류·추심 중)</span>
             </label>
             <label class="check-item">
-              <input type="radio" name="enforcement" value="no" checked>
+              <input type="radio" name="압류추심" value="아니오" checked>
               <div class="check-box"></div>
               <span class="check-label">아니오</span>
             </label>
@@ -414,17 +421,17 @@ nav {
           <label>선호 상담 방식 <span class="req">*</span></label>
           <div class="check-group" style="flex-direction:row; flex-wrap:wrap; gap:14px; margin-top:4px">
             <label class="check-item">
-              <input type="radio" name="method" value="visit">
+              <input type="radio" name="상담방식" value="방문상담">
               <div class="check-box"></div>
               <span class="check-label">🏢 방문 상담</span>
             </label>
             <label class="check-item">
-              <input type="radio" name="method" value="phone" checked>
+              <input type="radio" name="상담방식" value="전화상담" checked>
               <div class="check-box"></div>
               <span class="check-label">📞 전화 상담</span>
             </label>
             <label class="check-item">
-              <input type="radio" name="method" value="video">
+              <input type="radio" name="상담방식" value="화상상담">
               <div class="check-box"></div>
               <span class="check-label">💻 화상 상담</span>
             </label>
@@ -442,10 +449,11 @@ nav {
             <div class="time-slot" onclick="toggleTime(this)">오후 16시~17시</div>
             <div class="time-slot" onclick="toggleTime(this)">저녁 17시 이후</div>
           </div>
+          <input type="hidden" id="selectedTimes" name="선호시간대" value="">
         </div>
         <div class="field">
           <label>문의 내용 또는 특이사항</label>
-          <textarea id="memo" placeholder="예: 급여 압류 중이라 빠른 처리가 필요합니다. / 개인회생과 파산 중 어떤 것이 나은지 비교 상담 원합니다."></textarea>
+          <textarea id="memo" name="문의내용" placeholder="예: 급여 압류 중이라 빠른 처리가 필요합니다. / 개인회생과 파산 중 어떤 것이 나은지 비교 상담 원합니다."></textarea>
         </div>
       </div>
 
@@ -462,7 +470,8 @@ nav {
         </label>
       </div>
 
-      <button class="submit-btn" onclick="submitForm()">📅 상담 예약 신청하기</button>
+      <button type="button" class="submit-btn" onclick="submitForm()">📅 상담 예약 신청하기</button>
+      </form>
     </div>
 
     <!-- SUCCESS -->
@@ -481,18 +490,18 @@ nav {
     <div class="urgent-box">
       <div class="urgent-title">🚨 긴급 압류·추심 중이신가요?</div>
       <div class="urgent-desc">급여·통장 압류가 진행 중이라면 즉시 포괄적 금지명령 신청이 필요합니다. 전화로 먼저 연락해 주세요.</div>
-      <a class="urgent-btn" href="tel:010-0000-0000">📞 긴급 전화 상담</a>
+      <div class="urgent-btn">📞 긴급 전화 상담</div>
     </div>
 
     <div class="info-box">
       <div class="info-box-title">🏢 사무실 정보</div>
       <div class="info-row">
         <div class="info-row-label">전화</div>
-        <div class="info-row-val">010-0000-0000</div>
+        <div class="info-row-val">02-6166-2050</div>
       </div>
       <div class="info-row">
         <div class="info-row-label">팩스</div>
-        <div class="info-row-val">02-000-0000</div>
+        <div class="info-row-val">02-6166-2055</div>
       </div>
       <div class="info-row">
         <div class="info-row-label">운영</div>
@@ -500,7 +509,7 @@ nav {
       </div>
       <div class="info-row">
         <div class="info-row-label">위치</div>
-        <div class="info-row-val">서울 / 인천 관할</div>
+        <div class="info-row-val">서울시 관악구 남부순환로 1808, 1211호</div>
       </div>
     </div>
 
@@ -554,7 +563,7 @@ function toggleTime(el) {
   el.classList.toggle('selected');
 }
 
-function submitForm() {
+async function submitForm() {
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const region = document.getElementById('region').value;
@@ -567,20 +576,41 @@ function submitForm() {
   if (!unsecured) { alert('무담보 채무 총액을 선택해 주세요.'); return; }
   if (!privacy) { alert('개인정보 수집·이용에 동의해 주세요.'); return; }
 
-  const method = document.querySelector('input[name="method"]:checked');
+  // 선호 시간대 hidden input 업데이트
   const selectedTimes = [...document.querySelectorAll('.time-slot.selected')].map(t => t.textContent).join(', ') || '미선택';
+  document.getElementById('selectedTimes').value = selectedTimes;
 
-  document.getElementById('successSummary').innerHTML = `
-    ✅ 신청자: ${name}<br>
-    📞 연락처: ${phone}<br>
-    📍 지역: ${region}<br>
-    💬 상담 방식: ${method ? method.value === 'visit' ? '방문' : method.value === 'phone' ? '전화' : '화상' : '-'}<br>
-    🕐 선호 시간: ${selectedTimes}
-  `;
+  const method = document.querySelector('input[name="상담방식"]:checked');
 
-  document.getElementById('formArea').style.display = 'none';
-  document.getElementById('successArea').classList.add('show');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Netlify Forms에 fetch로 전송
+  const form = document.getElementById('consultForm');
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString()
+    });
+
+    if (response.ok) {
+      document.getElementById('successSummary').innerHTML = `
+        ✅ 신청자: ${name}<br>
+        📞 연락처: ${phone}<br>
+        📍 지역: ${region}<br>
+        💬 상담 방식: ${method ? method.value : '-'}<br>
+        🕐 선호 시간: ${selectedTimes}
+      `;
+      document.getElementById('formArea').style.display = 'none';
+      document.getElementById('successArea').classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      alert('전송 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    }
+  } catch(err) {
+    alert('네트워크 오류가 발생했습니다. 다시 시도해 주세요.');
+    console.error(err);
+  }
 }
 </script>
 </body>
